@@ -1,12 +1,10 @@
 const express = require('express');
 const app = express();
 const methodOverride = require('method-override');
-const comments = require('./controllers/comments')
-
-const reviews = require('./controllers/reviews');
+const Todos = require('./controllers/todo');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const Review = require('./models/review');
+const Todo = require('./models/todo1');
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/rotten-potatoes', {useNewUrlParser: true})
@@ -21,24 +19,19 @@ app.set('view engine', 'handlebars');
 
 
 
-app.get('/reviews/:id/edit', function (req, res) {
-  Review.findById(req.params.id, function(err, review) {
-    res.render('reviews-edit', {review: review});
-  });
-});
+// app.get('/reviews/:id/edit', function (req, res) {
+//   Review.findById(req.params.id, function(err, review) {
+//     res.render('reviews-edit', {review: review});
+//   });
+// });
 
 app.get('/', (req, res) => {
-  Review.find()
-    .then(reviews => {
-      res.render('reviews-index', { reviews: reviews });
-    })
-    .catch(err => {
-      console.log(err);
-    })
-});
-Review.find().then((review) => {
+
+      res.render('reviews-index', { reviews: Todo });
+    });
+//Review.find().then((review) => {
   // Code in here is executed when the promise resolves
-});
+//});
 
 
 
@@ -68,8 +61,8 @@ app.put('/reviews/:id', (req, res) => {
 })
 
 app.get('/reviews/:id', (req, res) => {
-  Review.findById(req.params.id, function(err, review) {
-    res.render('reviews-edit', {review: review});
+  Todo.findById(req.params.id, function(err, todo) {
+    res.render('reviews-edit', {review: todo});
   });
 
 });
@@ -81,6 +74,7 @@ app.get('/reviews/:id', (req, res) => {
     console.log(err.message);
   })
 })
+
 app.get('/reviews/new', (req, res) => {
   res.render('reviews-new', {});
 })
